@@ -5,6 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['libelle'])) {
     $libelle = htmlspecialchars($_POST['libelle']);
     $query = $dbPDO->prepare("INSERT INTO matiere (lib) VALUES (:libelle)");
     $query->bindParam(':libelle', $libelle);
+    
     if ($query->execute()) {
         echo "La matière a été ajouté<br>";
     } else {

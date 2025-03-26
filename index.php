@@ -6,8 +6,19 @@ require 'Model/pdo.php';
     <?php
     $etudiants = $dbPDO->prepare("SELECT * FROM etudiants");
     $etudiants->execute();
+
     foreach ($etudiants as $etudiant) { ?>
-        <li><?php echo htmlspecialchars($etudiant['prenom']) . " " . htmlspecialchars($etudiant['nom']); ?></li>
+        <li>
+            <?php echo htmlspecialchars($etudiant['prenom']) . " " . htmlspecialchars($etudiant['nom']); ?>
+
+            <a href="Views/modif_etudiant.php?id=<?php echo $etudiant['id']; ?>">
+            <p style="border: solid; display: inline-block;"><?php echo "Modifier"; ?></p>
+            </a>
+
+            <a href="Views/suppression_etudiant.php?id=<?php echo $etudiant['id']; ?>" onclick="return confirm('Confirmation de la suppression de l\'étudiant.');">
+            <p style="color: red; border: solid; display: inline-block;"><?php echo "Supprimer"; ?></p> 
+            </a>
+        </li>
     <?php } ?>
 </ul>
 <br>
@@ -16,6 +27,7 @@ require 'Model/pdo.php';
     <?php
     $classes = $dbPDO->prepare("SELECT * FROM classes");
     $classes->execute();
+
     foreach ($classes as $classe) { ?>
         <li><?php echo htmlspecialchars($classe['libelle']); ?></li>
     <?php } ?>
@@ -26,6 +38,7 @@ require 'Model/pdo.php';
     <?php
     $professeurs = $dbPDO->prepare("SELECT * FROM professeurs");
     $professeurs->execute();
+
     foreach ($professeurs as $professeur) { ?>
         <li><?php echo htmlspecialchars($professeur['prenom']) . " " . htmlspecialchars($professeur['nom']); ?></li>
     <?php } ?>
@@ -37,6 +50,7 @@ require 'Model/pdo.php';
     <?php
     $matieres = $dbPDO->prepare("SELECT * FROM matiere");
     $matieres->execute();
+
     foreach ($matieres as $matiere) { ?>
         <li><?php echo htmlspecialchars($matiere['lib']); ?></li>
     <?php } ?>
@@ -48,6 +62,7 @@ require 'Model/pdo.php';
     <?php
     $profs = $dbPDO->prepare("SELECT * FROM professeurs INNER JOIN classes ON professeurs.id_classe = classes.id INNER JOIN matiere ON professeurs.id_matiere = matiere.id");
     $profs->execute();
+
     foreach ($profs as $professeurs) { ?>
         <li><?php echo "Professeur : ".htmlspecialchars($professeurs['prenom'])." ".htmlspecialchars($professeurs['nom'])." | matière : ".htmlspecialchars($professeurs['lib']) . " | classe : " . htmlspecialchars($professeurs['libelle']); ?></li>
     <?php } ?>
@@ -72,6 +87,7 @@ require 'Model/pdo.php';
     <select id="classe" name="classe" required>
         <?php
         $classes = $dbPDO->query("SELECT * FROM classes");
+
         while ($classe = $classes->fetch()) {
             echo "<option value='".$classe['id']."'>".$classe['libelle']."</option>";
         }

@@ -9,6 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nom']) && isset($_POST
     $query->bindParam(':nom', $nom);
     $query->bindParam(':prenom', $prenom);
     $query->bindParam(':classe', $classe);
+    
     if ($query->execute()) {
         echo "L'étudiant a été ajouté<br>";
     } else {
